@@ -5,7 +5,7 @@ What is the sum of all of the calibration values?
 import inspect, os
 path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 # Using readlines() https://www.geeksforgeeks.org/read-a-file-line-by-line-in-python/
-day1File = open(os.path.join(path, 'day1_test2.txt'), 'r')
+day1File = open(os.path.join(path, 'day1.txt'), 'r')
 inputList = day1File.readlines()
 
 numbersMap = { 
@@ -27,6 +27,10 @@ for input in inputList:
         indexMap = {}
         for number in numbersMap.keys():
             index = input.find(number)
+            if index >= 0:
+                indexMap[index] = numbersMap[number]
+                indexList.append(index)
+            index = input.rfind(number)
             if index >= 0:
                 indexMap[index] = numbersMap[number]
                 indexList.append(index)
