@@ -4,10 +4,17 @@ What is the sum of all of the calibration values?
 """
 import inspect
 import os
-path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 # Using readlines() https://www.geeksforgeeks.org/read-a-file-line-by-line-in-python/
-day1File = open(os.path.join(path, 'day1.txt'), 'r')
-inputList = day1File.readlines()
+
+
+def file_reader(file_path):
+    """Reading and returning a files content"""
+    with open(file_path, encoding="utf-8") as file:
+        contents = file.readlines()
+    return contents
+
+inputList = file_reader(os.path.join(PATH, 'day1.txt'))
 
 numbersMap = {'one' : 1,
               'two' : 2, 
@@ -49,6 +56,6 @@ for line in inputList:
                 break
             i -= 1
         indexList.sort()
-        TOTALCALIBRATION += int(str(indexMap[indexList[0]]) + str(indexMap[indexList[len(indexList)-1]]))
-        
-print(TOTALCALIBRATION)
+        TOTALCALIBRATION += int(str(indexMap[indexList[0]]) +
+                            str(indexMap[indexList[len(indexList)-1]]))
+print(str(TOTALCALIBRATION))
