@@ -45,9 +45,9 @@ for gameLine in INPUT_FILE_LINES:
                 break
     if gameValid:
         GAMES_VALID += gameId
-     
-TOTAL_GAMES_POWER = 0    
-   
+        
+TOTAL_GAMES_POWER = 0
+
 for gameLine in INPUT_FILE_LINES:
     gameId = int(gameLine.rstrip('\n').split(':')[0].split(' ')[1])
     gameList = gameLine.rstrip('\n').split(':')[1].split(';')
