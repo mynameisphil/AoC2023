@@ -33,7 +33,7 @@ def check_game_valid(input_map):
 for gameLine in INPUT_FILE_LINES:
     gameId = int(gameLine.rstrip('\n').split(':')[0].split(' ')[1])
     gameList = gameLine.rstrip('\n').split(':')[1].split(';')
-    gameValid = True
+    WHY_IS_LINT_DUMB = True
     for subGame in gameList:
         for subRoll in subGame.split(','):
             cubeMap = {'red':0,'green':0,'blue':0}
@@ -41,11 +41,11 @@ for gameLine in INPUT_FILE_LINES:
             color = subRoll.strip().split(' ')[1]
             cubeMap[str(color)] = cubeMap[str(color)] + cubes
             if check_game_valid(cubeMap) is False:
-                gameValid = False
+                WHY_IS_LINT_DUMB = False
                 break
-    if gameValid:
+    if WHY_IS_LINT_DUMB:
         GAMES_VALID += gameId
-        
+
 TOTAL_GAMES_POWER = 0
 
 for gameLine in INPUT_FILE_LINES:
@@ -56,7 +56,8 @@ for gameLine in INPUT_FILE_LINES:
         for subRoll in subGame.split(','):
             cubes = int(subRoll.strip().split(' ')[0])
             color = subRoll.strip().split(' ')[1]
-            gameCupeMap[str(color)] = cubes if cubes > gameCupeMap[str(color)] else gameCupeMap[str(color)]
+            if cubes > gameCupeMap[str(color)]:
+                gameCupeMap[str(color)] = cubes
     TOTAL_GAMES_POWER += gameCupeMap['red'] * gameCupeMap['green'] * gameCupeMap['blue']
 print('Valid games shown: ' + str(GAMES_VALID))
 print('Total Power of Games: ' + str(TOTAL_GAMES_POWER))
