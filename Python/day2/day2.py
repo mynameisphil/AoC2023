@@ -12,7 +12,7 @@ def file_reader(file_path):
     return contents
 
 PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day2.txt'))
+INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day2_test.txt'))
 
 RED_CUBES = 12
 GREEN_CUBES = 13
@@ -34,16 +34,30 @@ for gameLine in INPUT_FILE_LINES:
     gameId = int(gameLine.rstrip('\n').split(':')[0].split(' ')[1])
     gameList = gameLine.rstrip('\n').split(':')[1].split(';')
     gameValid = True
-    for game in gameList:
-        for subGame in game.split(','):
+    for subGame in gameList:
+        for subRoll in subGame.split(','):
             cubeMap = {'red':0,'green':0,'blue':0}
-            cubes = int(subGame.strip().split(' ')[0])
-            color = subGame.strip().split(' ')[1]
+            cubes = int(subRoll.strip().split(' ')[0])
+            color = subRoll.strip().split(' ')[1]
             cubeMap[str(color)] = cubeMap[str(color)] + cubes
             if check_game_valid(cubeMap) is False:
                 gameValid = False
                 break
     if gameValid:
         GAMES_VALID += gameId
+     
+TOTAL_GAMES_POWER = 0    
+   
+for gameLine in INPUT_FILE_LINES:
+    gameId = int(gameLine.rstrip('\n').split(':')[0].split(' ')[1])
+    gameList = gameLine.rstrip('\n').split(':')[1].split(';')
+    gameCupeMap = {'red':0,'green':0,'blue':0}
+    for subGame in gameList:
+        for subRoll in subGame.split(','):
+            cubes = int(subRoll.strip().split(' ')[0])
+            color = subRoll.strip().split(' ')[1]
+            gameCupeMap[str(color)] = cubes if cubes > gameCupeMap[str(color)] else gameCupeMap[str(color)]
+    TOTAL_GAMES_POWER += gameCupeMap['red'] * gameCupeMap['green'] * gameCupeMap['blue']
 print('Valid games shown: ' + str(GAMES_VALID))
+print('Total Power of Games: ' + str(TOTAL_GAMES_POWER))
 #EoF
