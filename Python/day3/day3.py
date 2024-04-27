@@ -12,4 +12,4 @@ def file_reader(file_path):
     return contents
 
 PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day2_test.txt'))
+INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day3_test.txt'))
