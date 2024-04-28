@@ -15,6 +15,9 @@ def file_reader(file_path):
 PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day3.txt'))
 
+def get_numbers_list(stringInput):
+    return re.findall('[0-9]+', stringInput)
+
 #missing diagonal check
 def check_part_number(strNumber, currentLineIndex):
     adjacentCounter = 0
@@ -27,6 +30,24 @@ def check_part_number(strNumber, currentLineIndex):
         return True
     if subLine[-1].isdigit() == False and subLine[-1] != ".":
         return True
+    if currentLineIndex != 0 and currentLineIndex < len(INPUT_FILE_LINES)-1:
+        lineAbove = INPUT_FILE_LINES[currentLineIndex-1][subStringIndexStart:subStringIndexEnd]
+        lineBelow = INPUT_FILE_LINES[currentLineIndex+1][subStringIndexStart:subStringIndexEnd]
+        if len(lineAbove) != lineAbove.count('.'):
+            return True
+        if len(lineBelow) != lineBelow.count('.'):
+            return True
+    elif currentLineIndex == 0:
+        lineBelow = INPUT_FILE_LINES[currentLineIndex+1][subStringIndexStart:subStringIndexEnd]
+        if len(lineBelow) != lineBelow.count('.'):
+            return True
+    else:
+        lineAbove = INPUT_FILE_LINES[currentLineIndex-1][subStringIndexStart:subStringIndexEnd]
+        if len(lineAbove) != lineAbove.count('.'):
+            return True
+    if adjacentCounter > 0:
+        return True
+    """
     if currentLineIndex != 0 and currentLineIndex < len(INPUT_FILE_LINES)-1:
         lineAbove = INPUT_FILE_LINES[currentLineIndex-1][subStringIndexStart:subStringIndexEnd]
         lineBelow = INPUT_FILE_LINES[currentLineIndex+1][subStringIndexStart:subStringIndexEnd]
@@ -47,8 +68,17 @@ def check_part_number(strNumber, currentLineIndex):
                 adjacentCounter += 1
     if adjacentCounter > 0:
         return True
+    """
     return False
 
+sumOfParts = 0
+for lineIndex in range(0,len(INPUT_FILE_LINES)):
+    numbers = get_numbers_list(INPUT_FILE_LINES[lineIndex])
+    for n in numbers:
+        if check_part_number(n,lineIndex) == True:
+            sumOfParts += int(n)
+print(sumOfParts)
+"""
 sumOfParts = 0
 for lineIndex in range(0,len(INPUT_FILE_LINES)):
     currentLine = INPUT_FILE_LINES[lineIndex]
@@ -64,11 +94,10 @@ for lineIndex in range(0,len(INPUT_FILE_LINES)):
             number = ""
     #print(numberList)
 print(sumOfParts)
-             
+"""          
 
 """
-def get_numbers_list(stringInput):
-    return re.findall('[0-9]+', stringInput)
+
 """
 """
 def find_indices(list_to_check, item_to_find):
