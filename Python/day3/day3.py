@@ -109,14 +109,6 @@ def solve_part2():
                                         continue         
                 if len(partNumber) == 2:
                     numbersToParse.append(int(partNumber[0]*partNumber[1]))
-    """
-    for entry in numbersToParse:
-        for valueDict in entry.values():
-            for key in valueDict.keys():
-                finalNumber.append(int(key))
-                
-    print(sum(finalNumber))
-    """
     print(sum(numbersToParse))
     
 solve_part1()
