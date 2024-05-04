@@ -32,16 +32,24 @@ def get_matches_as_tuple(input_string, pattern):
         match_indices.append({matched_char : index})
     return tuple(match_indices)
 
+# Might be easier if I had a set of indices per symbol and number
+# Then I'd just have to compare the indices and maybe length of numbers
+# Could create a set from each symbol index .*. like (2,3,4) and just say
+# if numberIndex in range: countNumber or something
+
 for lineIndex in range(0,len(INPUT_FILE_LINES)):
     line = INPUT_FILE_LINES[lineIndex].rstrip('\n')
     symbolsTuple = get_matches_as_tuple(line, REGEX_SYMBOLS_ONLY)
     numbersTuple = get_matches_as_tuple(line, REGEX_NUMBERS_ONLY)
     PARSED_LINES[lineIndex] = {"symbols" : symbolsTuple, "numbers" : numbersTuple}
-   #print(lineIndex,PARSED_LINES[lineIndex])
-
+    print(lineIndex,PARSED_LINES[lineIndex])
+"""
+#Logic goes here
 for currentIndex in range(0,len(PARSED_LINES)):
     if len(PARSED_LINES[currentIndex]["symbols"]) > 0:
         print(PARSED_LINES[currentIndex])
+        
+"""
     #print(lineIndex, line)
     #print(lineIndex, symbolsTuple)
     #print(lineIndex, numbersTuple)
