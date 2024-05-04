@@ -15,29 +15,48 @@ def file_reader(file_path):
 PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day3_test.txt'))
 
-def find_symbols_in_line(input_string):
-    pattern = r"[^0-9.]"
+REGEX_SYMBOLS_ONLY = r"[^0-9.]"
+REGEX_NUMBERS_ONLY = r"[0-9]+"
+
+PARSED_LINES = {}
+
+def get_matches_list(stringInput, pattern):
+    return re.findall(pattern, stringInput)
+
+def get_matches_as_tuple(input_string, pattern):
     matches = re.finditer(pattern, input_string)
-    match_indices = {}
+    match_indices = []
     for match in matches:
         matched_char = match.group()
         index = match.start()
-        if matched_char not in match_indices:
-            match_indices[matched_char] = []
-        match_indices[matched_char].append(index)
-    return match_indices
+        match_indices.append({matched_char : index})
+    return tuple(match_indices)
 
 for lineIndex in range(0,len(INPUT_FILE_LINES)):
-    result = find_symbols_in_line(INPUT_FILE_LINES[lineIndex].rstrip('\n'))
-    if len(result) > 0:
+    line = INPUT_FILE_LINES[lineIndex].rstrip('\n')
+    symbolsTuple = get_matches_as_tuple(line, REGEX_SYMBOLS_ONLY)
+    numbersTuple = get_matches_as_tuple(line, REGEX_NUMBERS_ONLY)
+    PARSED_LINES[lineIndex] = {"symbols" : symbolsTuple, "numbers" : numbersTuple}
+   #print(lineIndex,PARSED_LINES[lineIndex])
+
+for currentIndex in range(0,len(PARSED_LINES)):
+    if len(PARSED_LINES[currentIndex]["symbols"]) > 0:
+        print(PARSED_LINES[currentIndex])
+    #print(lineIndex, line)
+    #print(lineIndex, symbolsTuple)
+    #print(lineIndex, numbersTuple)
+    #print("\n")
+    #if len(resultsList) > 0:
+    #    for result in resultsList:
+    #        for char,index in result.items():
+    #            print(char,index)
         #check if surrounding area contains above/below/diagonally any numeric value
         #if yes
         #run back to find the number
         #count numbers found this way
 
 
-def get_numbers_list(stringInput):
-    return re.findall('[0-9]+', stringInput)
+
 """
 #missing diagonal check
 def check_part_number(strNumber, currentLineIndex):
