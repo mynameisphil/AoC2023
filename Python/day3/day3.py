@@ -13,7 +13,7 @@ def file_reader(file_path):
     return contents
 
 PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day3_test.txt'))
+INPUT_FILE_LINES = file_reader(os.path.join(PATH, 'day3.txt'))
 
 REGEX_SYMBOLS_ONLY = r"[^0-9.]"
 REGEX_NUMBERS_ONLY = r"[0-9]+"
@@ -42,14 +42,52 @@ for lineIndex in range(0,len(INPUT_FILE_LINES)):
     symbolsTuple = get_matches_as_tuple(line, REGEX_SYMBOLS_ONLY)
     numbersTuple = get_matches_as_tuple(line, REGEX_NUMBERS_ONLY)
     PARSED_LINES[lineIndex] = {"symbols" : symbolsTuple, "numbers" : numbersTuple}
-    print(lineIndex,PARSED_LINES[lineIndex])
-"""
+        
+
 #Logic goes here
+numbersToParse = []
 for currentIndex in range(0,len(PARSED_LINES)):
     if len(PARSED_LINES[currentIndex]["symbols"]) > 0:
-        print(PARSED_LINES[currentIndex])
-        
-"""
+        #print(PARSED_LINES[currentIndex])
+        numbersList = {}
+        numbersList[currentIndex] = PARSED_LINES[currentIndex]["numbers"]
+        if currentIndex != 0 and currentIndex < len(PARSED_LINES)-1:
+            numbersList[currentIndex+1] = PARSED_LINES[currentIndex+1]["numbers"]
+            numbersList[currentIndex-1] = PARSED_LINES[currentIndex-1]["numbers"]
+        elif currentIndex == 0:
+            numbersList[currentIndex+1] = PARSED_LINES[currentIndex+1]["numbers"]
+        else:
+            numbersList[currentIndex-1] = PARSED_LINES[currentIndex-1]["numbers"]
+        #print(PARSED_LINES[currentIndex]["symbols"],numbersList)
+        for symbol in PARSED_LINES[currentIndex]["symbols"]:
+            for symbolChar,symbolIndex in symbol.items():
+                for numberListIndex,numberListTuples in numbersList.items():
+                    for numberDict in numberListTuples:
+                        for number in numberDict.keys():
+                            numberIndex = numberDict[number]
+                            #print(symbol,number,numberIndex,numberIndex+len(number))
+                            if numberIndex <= symbolIndex <= numberIndex+len(number):
+                                #print("Behind")
+                                #print(numberListIndex,numberDict, symbol,number,numberIndex,numberIndex+len(number))
+                                numbersToParse.append({numberListIndex : numberDict})
+                                continue
+                            if symbolIndex+1 == numberIndex or symbolIndex == numberIndex:
+                                #print("Ahead")
+                                #print(numberListIndex,numberDict, symbol,number,numberIndex,numberIndex+len(number))
+                                numbersToParse.append({numberListIndex : numberDict})
+                                continue         
+
+finalNumber = []
+for entry in numbersToParse:
+    for valueDict in entry.values():
+        for key in valueDict.keys():
+            finalNumber.append(int(key))
+            
+print(sum(finalNumber))
+                       
+#needs to have duplicates checked or something by using a set       
+#print(sum(set(numbersToParse)))
+                                    
     #print(lineIndex, line)
     #print(lineIndex, symbolsTuple)
     #print(lineIndex, numbersTuple)
